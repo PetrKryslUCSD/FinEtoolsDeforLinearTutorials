@@ -9,6 +9,7 @@ makedocs(
 	pages = Any[
 		"Home" => "index.md",
 		"Tutorials" => "tutorials/tutorials.md",
+		]
 	)
 
 deploydocs(
