@@ -1,11 +1,11 @@
-using Documenter, FinEtools, FinEtoolsDeforLinear
+using Documenter
 
 makedocs(
-	modules = [FinEtoolsDeforLinear],
+	modules = [],
 	doctest = false, clean = true,
 	format = Documenter.HTML(prettyurls = false),
 	authors = "Petr Krysl",
-	sitename = "FinEtoolsDeforLinear.jl",
+	sitename = "FinEtoolsDeforLinearTutorials.jl",
 	pages = Any[
 		"Home" => "index.md",
 		"Tutorials" => "tutorials/tutorials.md",

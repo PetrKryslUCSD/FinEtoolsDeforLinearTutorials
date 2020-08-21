@@ -129,7 +129,7 @@ produce moving pictures for the mode.
 
 ```julia
 mode = 7
-scattersysvec!(u, v[:,mode])
+scattersysvec!(u, evecs[:,mode])
 File =  "unit_cube_modes.vtk"
 vtkexportmesh(File, fens, fes; vectors=[("mode$mode", u.values)])
 @async run(`"paraview.exe" $File`);
