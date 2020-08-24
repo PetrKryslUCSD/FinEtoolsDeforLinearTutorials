@@ -1,25 +1,18 @@
-# Vibration of a cube of nearly incompressible material
+# Tracking a transient deformation of a cantilever beam
 
 ## Description
 
-Compute the free-vibration spectrum of a unit cube of nearly
-incompressible isotropic material, E = 1, ν = 0.499, and ρ = 1 (refer to [1]).
+A cantilever beam is given an initial velocity and then at time 0.0 it is
+suddenly stopped by fixing one of its ends. This sends a wave down the beam.
 
-The solution with the `FinEtools` package is compared with a commercial
-software  solution, and hence we also export the model to Abaqus.
-
-## References
-
-[1] Puso MA, Solberg J (2006) A stabilized nodally integrated tetrahedral. International Journal for Numerical Methods in Engineering 67: 841-867.
-[2] P. Krysl, Mean-strain 8-node hexahedron with optimized energy-sampling
-stabilization, Finite Elements in Analysis and Design 108 (2016) 41–53.
-
-![](unit_cube-mode7.png)
+The beam is modeled as a solid. Trapezoidal rule is used to integrate the
+equations of motion in time. Rayleigh mass-proportional damping is
+incorporated. The dynamic stiffness is factorized for efficiency.
 
 ## Goals
 
-- Show how to generate hexahedral mesh, mirroring and merging together parts.
-- Export the model to Abaqus.
+- Show how to create the discrete model.
+- Demonstrate  trapezoidal-rule time stepping.
 
 ```julia
 #
