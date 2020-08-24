@@ -9,6 +9,7 @@
 - [Nearly incompressible cube vibration, alternative models](unit_cube_modes_alt_tut.md)
 - [13H benchmark, forced vibration](TEST13H_tut.md)
 - [FV32 benchmark, free vibration of trapezoidal membrane](FV32_tut.md)
-
+- [Tracking a transient deformation of a cantilever beam](bending_wave_Ray_tut.md)
+- [Beam under on/off loading: transient response](beam_load_on_off_tut.md)
 
 
