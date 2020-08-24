@@ -96,7 +96,10 @@ fi = ForceIntensity(FFlt, 3, pfun);
 el1femm =  FEMMBase(IntegDomain(subset(bdryfes,tipbfl), GaussRule(2,2)))
 F = distribloads(el1femm, geom, u, fi, 2);
 
-dt = tend/2000;
+# We figure out the fundamental mode frequency, which will determine the time
+# step is a fraction of the period. 
+evals, evecs = eigs(K, M; nev=1, which=:SM);
+dt = 0.15 * 2/sqrt(evals[1]);
 
 # The time stepping loop is protected by `let end` to avoid unpleasant surprises
 # with variables getting clobbered by globals.
