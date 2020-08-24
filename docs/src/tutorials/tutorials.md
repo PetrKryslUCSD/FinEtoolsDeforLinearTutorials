@@ -1,4 +1,4 @@
-[Table of contents](https://petrkryslucsd.github.io/FinEtoolsDeforLinear.jl/dev/index.html)
+[Table of contents](https://petrkryslucsd.github.io/FinEtoolsDeforLinearTutorials.jl/dev/index.html)
 
 # Tutorials
 
