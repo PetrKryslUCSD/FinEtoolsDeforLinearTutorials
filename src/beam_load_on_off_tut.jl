@@ -37,17 +37,15 @@ using FinEtoolsDeforLinear.AlgoDeforLinearModule
 E = 205000*phun("MPa");# Young's modulus
 nu = 0.3;# Poisson ratio
 rho = 7850*phun("KG*M^-3");# mass density
-loss_tangent = 0.01;
-frequency = 1/0.0058;
-Rayleigh_mass = 2*loss_tangent*(2*pi*frequency);
-Rayleigh_stiffness = 2*loss_tangent/(2*pi*frequency);
+loss_tangent = 0.015;
 L = 200*phun("mm");
 W = 4*phun("mm");
 H = 8*phun("mm");
 tolerance = W/500;
 qmagn = 0.1*phun("MPa");
-tend = 2.0*phun("SEC");
+tend = 2.5*phun("SEC");
     
+
 ##
 # ## Create the discrete model
 
@@ -74,7 +72,6 @@ femm = associategeometry!(femm, geom)
 K = stiffness(femm, geom, u)
 femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,3)), material)
 M = mass(femm, geom, u)
-C = Rayleigh_stiffness * K + Rayleigh_mass * M
 
 # Find the boundary finite elements at the tip cross-section of the beam. The
 # uniform distributed loading will be applied to these elements.
@@ -96,10 +93,42 @@ fi = ForceIntensity(FFlt, 3, pfun);
 el1femm =  FEMMBase(IntegDomain(subset(bdryfes,tipbfl), GaussRule(2,2)))
 F = distribloads(el1femm, geom, u, fi, 2);
 
+# The loading function is defined as a time -dependent multiplier of the
+# constant distribution of the loading on the structure.
+tmult(t)  =  (t < 1.0) ? 1.0 : 0.0
+
+##
+# ## Time step determination
+
 # We figure out the fundamental mode frequency, which will determine the time
 # step is a fraction of the period. 
 evals, evecs = eigs(K, M; nev=1, which=:SM);
-dt = 0.15 * 2/sqrt(evals[1]);
+
+# The fundamental angular frequency is then:
+@show omega_f = sqrt(evals[1]);
+
+# We take  the time step to be a fraction of the period of vibration  in the
+# fundamental mode.
+dt = 0.05 * 1/(omega_f/2/pi);
+
+
+##
+# ## Damping model
+
+# We take the damping to be representative of what's happening at the
+# fundamental vibration frequency.
+
+# For a given loss factor at a certain  frequency $\omega_f$, the
+# stiffness-proportional damping coefficient may be estimated as
+# 2*loss_tangent/$\omega_f$, and the mass-proportional damping coefficient may be
+# estimated as 2*loss_tangent*$\omega_f$. 
+Rayleigh_mass = (loss_tangent/2)*omega_f;
+Rayleigh_stiffness = (loss_tangent/2)/omega_f;
+
+# Now we construct the Rayleigh damping matrix as a linear combination of the
+# stiffness and mass matrices.
+C = Rayleigh_stiffness * K + Rayleigh_mass * M
+
 
 # The time stepping loop is protected by `let end` to avoid unpleasant surprises
 # with variables getting clobbered by globals.
@@ -107,7 +136,6 @@ ts, corneruzs = let dt = dt, F = F
     # Initial displacement, velocity, and acceleration.
     U0 = gathersysvec(u)
     v = deepcopy(u)
-    v.values[:, 3] .= vmag
     V0 = gathersysvec(v)
     U1 = fill(0.0, length(V0))
     V1 = fill(0.0, length(V0))
@@ -129,14 +157,9 @@ ts, corneruzs = let dt = dt, F = F
         push!(corneruzs, U0[cornerzdof])
         t = t+dt;
         step = step + 1;
-        (mod(step,50)==0) && println("Step$(t)")
-        # Zero out the load
-        fill!(F1, 0.0);
-        # If the current time falls into the interval of force application, set
-        # the force.
-        if (t < tend/2)
-            F1 .= F
-        end
+        (mod(step,100)==0) && println("Step$(t)")
+        # Set the time-dependent load
+        F1 .= tmult(t) .* F
         # Compute the out of balance force.
         R = (M*V0 - C*(dt/2*V0) - K*((dt/2)^2*V0 + dt*U0) + (dt/2)*(F0+F1));
         # Calculate the new velocities.
