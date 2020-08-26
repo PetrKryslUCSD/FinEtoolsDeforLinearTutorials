@@ -140,7 +140,7 @@ Let us begin the time integration loop:
         push!(corneruzs, U0[cornerzdof])
         t = t+dt;
         step = step + 1;
-        (mod(step,50)==0) && println("Step$(t)")
+        (mod(step,25)==0) && println("Step $(step): $(t)")
 ```
 
 Zero out the load

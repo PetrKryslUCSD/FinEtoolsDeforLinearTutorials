@@ -88,6 +88,7 @@ models = [
 Run  the simulation loop over all the models.
 
 ```julia
+sigdig(n) = round(n * 10000) / 10000
 results = let
     results = []
     for m in models
@@ -111,7 +112,7 @@ results = let
         @show nconv == neigvs
         evals = evals .- OmegaShift;
         fs = real(sqrt.(complex(evals)))/(2*pi)
-        println("$(m[1]) eigenvalues: $fs [Hz]")
+        println("$(m[1]) eigenvalues: $(sigdig.(fs)) [Hz]")
         push!(results, (m, fs))
     end
     results # return it

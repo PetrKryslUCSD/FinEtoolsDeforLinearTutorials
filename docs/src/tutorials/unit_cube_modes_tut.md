@@ -10,7 +10,8 @@ software  solution, and hence we also export the model to Abaqus.
 
 ## References
 
-[1] Puso MA, Solberg J (2006) A stabilized nodally integrated tetrahedral. International Journal for Numerical Methods in Engineering 67: 841-867.
+[1] Puso MA, Solberg J (2006) A stabilized nodally integrated tetrahedral.
+International Journal for Numerical Methods in Engineering 67: 841-867.
 [2] P. Krysl, Mean-strain 8-node hexahedron with optimized energy-sampling
 stabilization, Finite Elements in Analysis and Design 108 (2016) 41–53.
 
@@ -119,7 +120,8 @@ evals, evecs, nconv = eigs(K+OmegaShift*M, M; nev=neigvs, which=:SM)
 @show nconv == neigvs
 evals = evals .- OmegaShift;
 fs = real(sqrt.(complex(evals)))/(2*pi)
-println("Eigenvalues: $fs [Hz]")
+sigdig(n) = round(n * 10000) / 10000
+println("Eigenvalues: $(sigdig.(fs)) [Hz]")
 ```
 
 The first nonzero frequency, frequency 7, should be around .263 Hz.
