@@ -14,7 +14,8 @@ material = MatDeforElastIso(MR, rho, E, nu, 0.0);</code></pre><pre><code class="
     (&quot;ESNICET4&quot;, T4block, NodalSimplexRule(3), FEMMDeforLinearESNICET4, 2),
     (&quot;MSH8&quot;, H8block, NodalTensorProductRule(3), FEMMDeforLinearMSH8, 2),
     (&quot;MST10&quot;, T10block, TetRule(4), FEMMDeforLinearMST10, 1),
-]</code></pre><p>Run  the simulation loop over all the models.</p><pre><code class="language-julia">results = let
+]</code></pre><p>Run  the simulation loop over all the models.</p><pre><code class="language-julia">sigdig(n) = round(n * 10000) / 10000
+results = let
     results = []
     for m in models
         fens, fes  = m[2](a, a, a, m[5]*N, m[5]*N, m[5]*N);
@@ -37,7 +38,7 @@ material = MatDeforElastIso(MR, rho, E, nu, 0.0);</code></pre><pre><code class="
         @show nconv == neigvs
         evals = evals .- OmegaShift;
         fs = real(sqrt.(complex(evals)))/(2*pi)
-        println(&quot;$(m[1]) eigenvalues: $fs [Hz]&quot;)
+        println(&quot;$(m[1]) eigenvalues: $(sigdig.(fs)) [Hz]&quot;)
         push!(results, (m, fs))
     end
     results # return it
@@ -51,4 +52,4 @@ for r in results
     @gp  :- collect(1:length(r[2])) vec(r[2]) &quot; lw 2 with lp title &#39;$(r[1][1])&#39; &quot;  :-
 end
 @gp  :- &quot;set xlabel &#39;Mode number [ND]&#39;&quot; :-
-@gp  :- &quot;set ylabel &#39;Frequency [Hz]&#39;&quot;</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 26 August 2020 17:53">Wednesday 26 August 2020</span>. Using Julia version 1.5.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+@gp  :- &quot;set ylabel &#39;Frequency [Hz]&#39;&quot;</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 26 August 2020 21:26">Wednesday 26 August 2020</span>. Using Julia version 1.5.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
