@@ -55,7 +55,7 @@ L = 10.0*phun("m"); # side of the square plate
 t = 0.05*phun("m"); # thickness of the square plate
 nL = 16; nt = 4;
 tolerance = t/nt/100;
-frequencies = vcat(linearspace(0.0,2.377,20), linearspace(2.377,15.0,70))
+frequencies = vcat(linearspace(0.0,2.377,15), linearspace(2.377,15.0,40))
 ```
 
 Compute the parameters of Rayleigh damping. For the two selected
@@ -209,8 +209,8 @@ U1 = zeros(FCplxFlt, u.nfreedofs, length(frequencies))
 
 print("Sweeping through $(length(frequencies)) frequencies\n")
 for k in 1:length(frequencies)
-    frequency = frequencies[k];
-    omega = 2*pi*frequency;
+    f = frequencies[k];
+    omega = 2*pi*f;
     U1[:, k] = (-omega^2*M + 1im*omega*C + K)\F;
     print(".")
 end
@@ -241,37 +241,17 @@ midpointdof = u.dofnums[midpoint, 3]
 ## Plot the results
 
 ```julia
-using PlotlyJS
-
-options = Dict(
-        :showSendToCloud=>true,
-        :plotlyServerURL=>"https://chart-studio.plotly.com"
-        )
+using Gnuplot
 ```
 
 Plot the amplitude of the FRF.
 
 ```julia
 umidAmpl = abs.(U1[midpointdof, :])/phun("MM")
-```
-
-Define the layout of the figure.
-
-```julia
-layout = Layout(;width=650, height=600, xaxis=attr(title="Frequency [Hz]", type = "log"), yaxis=attr(title="Midpoint  displacement amplitude [mm]", type = "linear"), title = "Thin plate midpoint Amplitude FRF")
-```
-
-Create the graphs:
-
-```julia
-plots = cat(scatter(;x=vec(frequencies), y=vec(umidAmpl), mode="lines", name = "FEA", line_color = "rgb(215, 15, 15)"); dims = 1)
-```
-
-Plot the graphs:
-
-```julia
-pl = plot(plots, layout; options)
-display(pl)
+@gp "set terminal wxt 0 " :-
+@gp  :- vec(frequencies) vec(umidAmpl) "lw 2 lc rgb 'red' with lines title 'Displacement of the corner' " :-
+@gp  :- "set xlabel 'Frequency [Hz]'" :-
+@gp  :- "set ylabel 'Midpoint  displacement amplitude [mm]'"
 ```
 
 Plot the FRF real and imaginary components.
@@ -279,50 +259,22 @@ Plot the FRF real and imaginary components.
 ```julia
 umidReal = real.(U1[midpointdof, :])/phun("MM")
 umidImag = imag.(U1[midpointdof, :])/phun("MM")
+@gp  "set terminal wxt 1 "  :-
+@gp  :- vec(frequencies) vec(umidReal) "lw 2 lc rgb 'red' with lines title 'Real' "  :-
+@gp  :- vec(frequencies) vec(umidImag) "lw 2 lc rgb 'blue' with lines title 'Imaginary' "  :-
+@gp  :- "set xlabel 'Frequency [Hz]'" :-
+@gp  :- "set ylabel 'Midpoint  displacement FRF [mm]'"
 ```
 
-Define the layout of the figure.
-
-```julia
-layout = Layout(;width=650, height=600, xaxis=attr(title="Frequency [Hz]", type = "log"), yaxis=attr(title="Midpoint  displacement amplitude [mm]", type = "linear"), title = "Thin plate midpoint Real/Imag FRF")
-```
-
-Create the graphs:
-
-```julia
-plots = cat(scatter(;x=vec(frequencies), y=vec(umidReal), mode="markers+lines", name = "real", line_color = "rgb(215, 15, 15)"), scatter(;x=vec(frequencies), y=vec(umidImag), mode="markers+lines", name = "imag", line_color = "rgb(15, 15, 215)"); dims = 1)
-```
-
-Plot the graphs:
-
-```julia
-pl = plot(plots, layout; options)
-display(pl)
-```
-
-Plot the shift of the FRF.
+# Plot the shift of the FRF.
 
 ```julia
 umidPhase = atan.(umidImag, umidReal)/pi*180
-```
+@gp  "set terminal wxt 2 "  :-
+@gp  :- vec(frequencies) vec(umidPhase) "lw 2 lc rgb 'red' with lines title 'Phase shift' "  :-
+@gp  :- "set xlabel 'Frequency [Hz]'" :-
+@gp  :- "set ylabel 'Phase shift [deg]'"
 
-Define the layout of the figure.
-
-```julia
-layout = Layout(;width=650, height=600, xaxis=attr(title="Frequency [Hz]", type = "log"), yaxis=attr(title="Phase shift [deg]", type = "linear"), title = "Thin plate midpoint FRF phase")
-```
-
-Create the graphs:
-
-```julia
-plots = cat(scatter(;x=vec(frequencies), y=vec(umidPhase), mode="lines", name = "phase", line_color = "rgb(15, 215, 15)"),; dims = 1)
-```
-
-Plot the graphs:
-
-```julia
-pl = plot(plots, layout; options)
-display(pl)
 
 true
 ```

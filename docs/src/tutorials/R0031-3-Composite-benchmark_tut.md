@@ -22,10 +22,9 @@ The problem will be solved with a pre-packaged algorithm.
 using FinEtoolsDeforLinear.AlgoDeforLinearModule
 ```
 
-For plotting we use the following packages.
+For some basic statistics.
 
 ```julia
-using UnicodePlots
 import Statistics: mean
 ```
 
@@ -189,8 +188,13 @@ ix = sortperm(geom.values[lcenter, 3])
 Plot the data
 
 ```julia
-a = lineplot(geom.values[lcenter, 3][ix], u.values[lcenter, 3][ix]./phun("in"), name = "cold leg", xlabel = "Z coordinate [in]", ylabel = "Vert displ [in]", canvas = DotCanvas)
-display(a)
+using Gnuplot
+
+
+@gp  "set terminal wxt 0 "  :-
+@gp  :- geom.values[lcenter, 3][ix] u.values[lcenter, 3][ix]./phun("in") " lw 2 with lp title 'cold leg' "  :-
+@gp  :- "set xlabel 'Z coordinate [in]'" :-
+@gp  :- "set ylabel 'Vert displ [in]'"
 ```
 
 A reasonable single number to report for the deflection at the center is the average of the displacements at the nodes at the center of the plate (-0.136348):
@@ -206,7 +210,7 @@ The deformed shape can be investigated  visually in `paraview` (uncomment the li
 
 ```julia
 File =  "NAFEMS-R0031-3-plate.vtk"
-vtkexportmesh(File, connasarray(fes), geom.values, FinEtools.MeshExportModule.H20;
+vtkexportmesh(File, connasarray(fes), geom.values, FinEtools.MeshExportModule.VTK.H20;
     scalars = [("Layer", fes.label)], vectors = [("displacement", u.values)])
 ```
 

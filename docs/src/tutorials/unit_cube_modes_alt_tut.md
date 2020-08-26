@@ -117,36 +117,21 @@ results = let
     results # return it
 end
 
-
-using PlotlyJS
+#
 ```
 
-Make sure we can edit the chart if we needed to.
+## Present the results graphically
 
 ```julia
-options = Dict(
-        :showSendToCloud=>true,
-        :plotlyServerURL=>"https://chart-studio.plotly.com"
-        )
-```
+using Gnuplot
 
-Create the layout.
 
-```julia
-layout = Layout(;width=650, height=500, xaxis=attr(title="Mode number [ND]", type = "linear"), yaxis=attr(title="Frequency [Hz]", type = "linear"), title = "Natural frequencies")
-```
-
-Create the graphs:
-
-```julia
-plots = [scatter(;x=vec(1:length(r[2])), y=vec(r[2]), mode="markers", name = r[1][1]) for r in results]
-```
-
-Plot the graphs:
-
-```julia
-pl = plot(plots, layout; options)
-display(pl)
+@gp  "set terminal wxt 0 "  :-
+for r in results
+    @gp  :- collect(1:length(r[2])) vec(r[2]) " lw 2 with lp title '$(r[1][1])' "  :-
+end
+@gp  :- "set xlabel 'Mode number [ND]'" :-
+@gp  :- "set ylabel 'Frequency [Hz]'"
 ```
 
 ---

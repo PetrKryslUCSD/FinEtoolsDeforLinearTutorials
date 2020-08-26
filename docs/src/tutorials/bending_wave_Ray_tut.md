@@ -189,31 +189,11 @@ end
 ## Plot the results
 
 ```julia
-using PlotlyJS
+using Gnuplot
 
-options = Dict(
-    :showSendToCloud=>true,
-    :plotlyServerURL=>"https://chart-studio.plotly.com"
-    )
-```
-
-Define the layout of the figure.
-
-```julia
-layout = Layout(;width=600, height=500, xaxis=attr(title="Time [s]", type = "linear"), yaxis=attr(title="Displacement [mm]", type = "linear"), title = "Displacement of the corner")
-```
-
-Create the graphs:
-
-```julia
-plots = cat(scatter(;x=ts, y=corneruzs./phun("mm"), mode="lines", name = "", line_color = "rgb(215, 15, 15)", line_width = 4); dims = 1)
-```
-
-Plot the graphs:
-
-```julia
-pl = plot(plots, layout; options)
-display(pl)
+@gp ts corneruzs./phun("mm") "lw 2 lc rgb 'red' with lines title 'Displacement of the corner' "
+@gp  :- "set xlabel 'Time [s]'"
+@gp  :- "set ylabel 'Displacement [mm]'"
 ```
 
 The end.
