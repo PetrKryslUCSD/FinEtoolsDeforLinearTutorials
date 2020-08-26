@@ -10,7 +10,7 @@ L = 10.0*phun(&quot;m&quot;); # side of the square plate
 t = 0.05*phun(&quot;m&quot;); # thickness of the square plate
 nL = 16; nt = 4;
 tolerance = t/nt/100;
-frequencies = vcat(linearspace(0.0,2.377,20), linearspace(2.377,15.0,70))</code></pre><p>Compute the parameters of Rayleigh damping. For the two selected frequencies we have the relationship between the damping ratio and the Rayleigh parameters</p><div>\[\xi_m=a_0/\omega_m+a_1\omega_m\]</div><p>where <span>$m=1,2$</span>.  Solving for the Rayleigh parameters <span>$a_0,a_1$</span> yields:</p><pre><code class="language-julia">zeta1 = 0.02; zeta2 = 0.02;
+frequencies = vcat(linearspace(0.0,2.377,15), linearspace(2.377,15.0,40))</code></pre><p>Compute the parameters of Rayleigh damping. For the two selected frequencies we have the relationship between the damping ratio and the Rayleigh parameters</p><div>\[\xi_m=a_0/\omega_m+a_1\omega_m\]</div><p>where <span>$m=1,2$</span>.  Solving for the Rayleigh parameters <span>$a_0,a_1$</span> yields:</p><pre><code class="language-julia">zeta1 = 0.02; zeta2 = 0.02;
 o1 = 2*pi*2.377;  o2 = 2*pi*15.468;
 a0 = 2*(o1*o2)/(o2^2-o1^2)*(o2*zeta1-o1*zeta2);# a0
 a1 = 2*(o1*o2)/(o2^2-o1^2)*(-1/o2*zeta1+1/o1*zeta2);# a1
@@ -37,22 +37,28 @@ F = distribloads(el1femm, geom, u, fi, 2);
 
 print(&quot;Sweeping through $(length(frequencies)) frequencies\n&quot;)
 for k in 1:length(frequencies)
-    frequency = frequencies[k];
-    omega = 2*pi*frequency;
+    f = frequencies[k];
+    omega = 2*pi*f;
     U1[:, k] = (-omega^2*M + 1im*omega*C + K)\F;
     print(&quot;.&quot;)
 end
 print(&quot;\n&quot;)</code></pre><p>Find the midpoint of the plate bottom surface.  For this purpose the number of elements along the edge of the plate needs to be divisible by two.</p><pre><code class="language-julia">midpoint = selectnode(fens, box=[L/2 L/2 L/2 L/2 0 0], inflate=tolerance);</code></pre><p>Check that we found that node.</p><pre><code class="language-julia">@assert midpoint != []</code></pre><p>Extract the displacement component in the vertical direction (Z).</p><pre><code class="language-julia">midpointdof = u.dofnums[midpoint, 3]
 
-#</code></pre><h2 id="Plot-the-results"><a class="docs-heading-anchor" href="#Plot-the-results">Plot the results</a><a id="Plot-the-results-1"></a><a class="docs-heading-anchor-permalink" href="#Plot-the-results" title="Permalink"></a></h2><pre><code class="language-julia">using PlotlyJS
+#</code></pre><h2 id="Plot-the-results"><a class="docs-heading-anchor" href="#Plot-the-results">Plot the results</a><a id="Plot-the-results-1"></a><a class="docs-heading-anchor-permalink" href="#Plot-the-results" title="Permalink"></a></h2><pre><code class="language-julia">using Gnuplot</code></pre><p>Plot the amplitude of the FRF.</p><pre><code class="language-julia">umidAmpl = abs.(U1[midpointdof, :])/phun(&quot;MM&quot;)
+@gp &quot;set terminal wxt 0 &quot; :-
+@gp  :- vec(frequencies) vec(umidAmpl) &quot;lw 2 lc rgb &#39;red&#39; with lines title &#39;Displacement of the corner&#39; &quot; :-
+@gp  :- &quot;set xlabel &#39;Frequency [Hz]&#39;&quot; :-
+@gp  :- &quot;set ylabel &#39;Midpoint  displacement amplitude [mm]&#39;&quot;</code></pre><p>Plot the FRF real and imaginary components.</p><pre><code class="language-julia">umidReal = real.(U1[midpointdof, :])/phun(&quot;MM&quot;)
+umidImag = imag.(U1[midpointdof, :])/phun(&quot;MM&quot;)
+@gp  &quot;set terminal wxt 1 &quot;  :-
+@gp  :- vec(frequencies) vec(umidReal) &quot;lw 2 lc rgb &#39;red&#39; with lines title &#39;Real&#39; &quot;  :-
+@gp  :- vec(frequencies) vec(umidImag) &quot;lw 2 lc rgb &#39;blue&#39; with lines title &#39;Imaginary&#39; &quot;  :-
+@gp  :- &quot;set xlabel &#39;Frequency [Hz]&#39;&quot; :-
+@gp  :- &quot;set ylabel &#39;Midpoint  displacement FRF [mm]&#39;&quot;</code></pre><h1 id="Plot-the-shift-of-the-FRF."><a class="docs-heading-anchor" href="#Plot-the-shift-of-the-FRF.">Plot the shift of the FRF.</a><a id="Plot-the-shift-of-the-FRF.-1"></a><a class="docs-heading-anchor-permalink" href="#Plot-the-shift-of-the-FRF." title="Permalink"></a></h1><pre><code class="language-julia">umidPhase = atan.(umidImag, umidReal)/pi*180
+@gp  &quot;set terminal wxt 2 &quot;  :-
+@gp  :- vec(frequencies) vec(umidPhase) &quot;lw 2 lc rgb &#39;red&#39; with lines title &#39;Phase shift&#39; &quot;  :-
+@gp  :- &quot;set xlabel &#39;Frequency [Hz]&#39;&quot; :-
+@gp  :- &quot;set ylabel &#39;Phase shift [deg]&#39;&quot;
 
-options = Dict(
-        :showSendToCloud=&gt;true,
-        :plotlyServerURL=&gt;&quot;https://chart-studio.plotly.com&quot;
-        )</code></pre><p>Plot the amplitude of the FRF.</p><pre><code class="language-julia">umidAmpl = abs.(U1[midpointdof, :])/phun(&quot;MM&quot;)</code></pre><p>Define the layout of the figure.</p><pre><code class="language-julia">layout = Layout(;width=650, height=600, xaxis=attr(title=&quot;Frequency [Hz]&quot;, type = &quot;log&quot;), yaxis=attr(title=&quot;Midpoint  displacement amplitude [mm]&quot;, type = &quot;linear&quot;), title = &quot;Thin plate midpoint Amplitude FRF&quot;)</code></pre><p>Create the graphs:</p><pre><code class="language-julia">plots = cat(scatter(;x=vec(frequencies), y=vec(umidAmpl), mode=&quot;lines&quot;, name = &quot;FEA&quot;, line_color = &quot;rgb(215, 15, 15)&quot;); dims = 1)</code></pre><p>Plot the graphs:</p><pre><code class="language-julia">pl = plot(plots, layout; options)
-display(pl)</code></pre><p>Plot the FRF real and imaginary components.</p><pre><code class="language-julia">umidReal = real.(U1[midpointdof, :])/phun(&quot;MM&quot;)
-umidImag = imag.(U1[midpointdof, :])/phun(&quot;MM&quot;)</code></pre><p>Define the layout of the figure.</p><pre><code class="language-julia">layout = Layout(;width=650, height=600, xaxis=attr(title=&quot;Frequency [Hz]&quot;, type = &quot;log&quot;), yaxis=attr(title=&quot;Midpoint  displacement amplitude [mm]&quot;, type = &quot;linear&quot;), title = &quot;Thin plate midpoint Real/Imag FRF&quot;)</code></pre><p>Create the graphs:</p><pre><code class="language-julia">plots = cat(scatter(;x=vec(frequencies), y=vec(umidReal), mode=&quot;markers+lines&quot;, name = &quot;real&quot;, line_color = &quot;rgb(215, 15, 15)&quot;), scatter(;x=vec(frequencies), y=vec(umidImag), mode=&quot;markers+lines&quot;, name = &quot;imag&quot;, line_color = &quot;rgb(15, 15, 215)&quot;); dims = 1)</code></pre><p>Plot the graphs:</p><pre><code class="language-julia">pl = plot(plots, layout; options)
-display(pl)</code></pre><p>Plot the shift of the FRF.</p><pre><code class="language-julia">umidPhase = atan.(umidImag, umidReal)/pi*180</code></pre><p>Define the layout of the figure.</p><pre><code class="language-julia">layout = Layout(;width=650, height=600, xaxis=attr(title=&quot;Frequency [Hz]&quot;, type = &quot;log&quot;), yaxis=attr(title=&quot;Phase shift [deg]&quot;, type = &quot;linear&quot;), title = &quot;Thin plate midpoint FRF phase&quot;)</code></pre><p>Create the graphs:</p><pre><code class="language-julia">plots = cat(scatter(;x=vec(frequencies), y=vec(umidPhase), mode=&quot;lines&quot;, name = &quot;phase&quot;, line_color = &quot;rgb(15, 215, 15)&quot;),; dims = 1)</code></pre><p>Plot the graphs:</p><pre><code class="language-julia">pl = plot(plots, layout; options)
-display(pl)
 
-true</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 25 August 2020 01:24">Tuesday 25 August 2020</span>. Using Julia version 1.5.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+true</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 26 August 2020 02:38">Wednesday 26 August 2020</span>. Using Julia version 1.5.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

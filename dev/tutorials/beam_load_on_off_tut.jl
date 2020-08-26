@@ -3,9 +3,9 @@
 # ## Description
 
 
-# A cantilever beam is loaded by a suddenly-applied traction at its free
-# cross-section. The load is taken off after one second. The beam oscillates
-# about its equilibrium configuration.
+# A cantilever beam is loaded by a trapezoidal-pulse traction load at its free
+# cross-section. The load is applied within 0.015 seconds and taken off after
+# 0.37 seconds. The beam oscillates about its equilibrium configuration.
 
 # The beam is modeled as a solid. Trapezoidal rule is used to integrate the
 # equations of motion in time. Rayleigh mass- and stiffness-proportional
@@ -37,13 +37,13 @@ using FinEtoolsDeforLinear.AlgoDeforLinearModule
 E = 205000*phun("MPa");# Young's modulus
 nu = 0.3;# Poisson ratio
 rho = 7850*phun("KG*M^-3");# mass density
-loss_tangent = 0.015;
+loss_tangent = 0.005;
 L = 200*phun("mm");
 W = 4*phun("mm");
 H = 8*phun("mm");
 tolerance = W/500;
 qmagn = 0.1*phun("MPa");
-tend = 2.5*phun("SEC");
+tend = 0.5*phun("SEC");
     
 
 ##
@@ -95,7 +95,22 @@ F = distribloads(el1femm, geom, u, fi, 2);
 
 # The loading function is defined as a time -dependent multiplier of the
 # constant distribution of the loading on the structure.
-tmult(t)  =  (t < 1.0) ? 1.0 : 0.0
+function tmult(t) 
+    if (t <= 0.015) 
+        t/0.015
+    else
+        if (t >= 0.4) 
+            0.0
+        else
+            if (t <= 0.385) 
+                1.0
+            else
+                (t - 0.4)/(0.385 - 0.4)
+            end
+        end
+    end
+end
+
 
 ##
 # ## Time step determination
@@ -109,7 +124,7 @@ evals, evecs = eigs(K, M; nev=1, which=:SM);
 
 # We take  the time step to be a fraction of the period of vibration  in the
 # fundamental mode.
-dt = 0.05 * 1/(omega_f/2/pi);
+@show dt = 0.05 * 1/(omega_f/2/pi);
 
 
 ##
@@ -152,12 +167,13 @@ ts, corneruzs = let dt = dt, F = F
     # Let us begin the time integration loop:
     t = 0.0; 
     step = 0;
+    F0 .= tmult(t) .* F
     while t < tend
         push!(ts, t)
         push!(corneruzs, U0[cornerzdof])
         t = t+dt;
         step = step + 1;
-        (mod(step,100)==0) && println("Step$(t)")
+        (mod(step,100)==0) && println("Step $(step): $(t)")
         # Set the time-dependent load
         F1 .= tmult(t) .* F
         # Compute the out of balance force.
@@ -183,20 +199,12 @@ end
 ##
 # ## Plot the results
 
-using PlotlyJS
+using Gnuplot
 
-options = Dict(
-    :showSendToCloud=>true, 
-    :plotlyServerURL=>"https://chart-studio.plotly.com"
-    )
+@gp ts corneruzs./phun("mm") "lw 2 lc rgb 'red' with lines title 'Displacement of the corner' " 
+@gp  :- "set xlabel 'Time [s]'"
+@gp  :- "set ylabel 'Displacement [mm]'"
 
-# Define the layout of the figure.
-layout = Layout(;width=600, height=500, xaxis=attr(title="Time [s]", type = "linear"), yaxis=attr(title="Displacement [mm]", type = "linear"), title = "Displacement of the corner")
-# Create the graphs:
-plots = cat(scatter(;x=ts, y=corneruzs./phun("mm"), mode="lines", name = "", line_color = "rgb(215, 15, 15)", line_width = 4); dims = 1)
-# Plot the graphs:
-pl = plot(plots, layout; options)
-display(pl)
 
 # The end.
 true
