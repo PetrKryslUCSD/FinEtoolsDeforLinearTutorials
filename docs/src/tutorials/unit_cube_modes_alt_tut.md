@@ -127,7 +127,7 @@ end
 using Gnuplot
 
 
-@gp  "set terminal wxt 0 "  :-
+@gp  "set terminal windows 0 "  :-
 for r in results
     @gp  :- collect(1:length(r[2])) vec(r[2]) " lw 2 with lp title '$(r[1][1])' "  :-
 end

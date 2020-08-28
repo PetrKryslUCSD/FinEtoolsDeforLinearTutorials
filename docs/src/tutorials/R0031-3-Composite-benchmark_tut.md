@@ -191,7 +191,7 @@ Plot the data
 using Gnuplot
 
 Gnuplot.gpexec("reset session")
-@gp  "set terminal wxt 0 "  :-
+@gp  "set terminal windows 0 "  :-
 @gp  :- geom.values[lcenter, 3][ix] u.values[lcenter, 3][ix]./phun("in") " lw 2 with lp title 'cold leg' "  :-
 @gp  :- "set xlabel 'Z coordinate [in]'" :-
 @gp  :- "set ylabel 'Vert displ [in]'"
