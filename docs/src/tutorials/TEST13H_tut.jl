@@ -140,13 +140,14 @@ F = distribloads(el1femm, geom, u, fi, 2);
 U1 = zeros(FCplxFlt, u.nfreedofs, length(frequencies))
 
 print("Sweeping through $(length(frequencies)) frequencies\n")
+t0 = time()
 for k in 1:length(frequencies)
     f = frequencies[k];
     omega = 2*pi*f;
     U1[:, k] = (-omega^2*M + 1im*omega*C + K)\F;
     print(".")
 end
-print("\n")
+print("\nTime = $(time()-t0)\n")
 
 # Find the midpoint of the plate bottom surface.  For this purpose the number of
 # elements along the edge of the plate needs to be divisible by two.

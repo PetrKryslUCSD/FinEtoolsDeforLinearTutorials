@@ -1,4 +1,4 @@
-# # TEST 13H: square plate under harmonic loading
+# # TEST 13H: square plate under harmonic loading. Parallel execution.
 
 # ## Description
 
@@ -19,6 +19,10 @@
 # 12.133, 12.133, 15.468, 15.468 [Hz].
 
 # ![](test13h_real_imag.png)
+
+# The harmonic response loop is processed with multiple threads. The algorithm
+# is embarrassingly parallel (i. e. no communication is required). Hence the
+# parallel execution is particularly simple.
 
 # ## References
 
@@ -139,9 +143,11 @@ F = distribloads(el1femm, geom, u, fi, 2);
 # The entire solution will be stored  in this array:
 U1 = zeros(FCplxFlt, u.nfreedofs, length(frequencies))
 
+using Base.Threads
+print("Number of threads: $(nthreads())\n")
 print("Sweeping through $(length(frequencies)) frequencies\n")
 t0 = time()
-for k in 1:length(frequencies)
+Threads.@threads for k in 1:length(frequencies)
     f = frequencies[k];
     omega = 2*pi*f;
     U1[:, k] = (-omega^2*M + 1im*omega*C + K)\F;
