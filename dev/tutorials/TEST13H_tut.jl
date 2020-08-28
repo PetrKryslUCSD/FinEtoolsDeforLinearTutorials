@@ -163,7 +163,7 @@ using Gnuplot
 
 # Plot the amplitude of the FRF.
 umidAmpl = abs.(U1[midpointdof, :])/phun("MM")
-@gp "set terminal wxt 0 " :-
+@gp "set terminal windows 0 " :-
 @gp  :- vec(frequencies) vec(umidAmpl) "lw 2 lc rgb 'red' with lines title 'Displacement of the corner' " :-
 @gp  :- "set xlabel 'Frequency [Hz]'" :-
 @gp  :- "set ylabel 'Midpoint  displacement amplitude [mm]'"
@@ -172,7 +172,7 @@ umidAmpl = abs.(U1[midpointdof, :])/phun("MM")
 # Plot the FRF real and imaginary components.
 umidReal = real.(U1[midpointdof, :])/phun("MM")
 umidImag = imag.(U1[midpointdof, :])/phun("MM")
-@gp  "set terminal wxt 1 "  :-
+@gp  "set terminal windows 1 "  :-
 @gp  :- vec(frequencies) vec(umidReal) "lw 2 lc rgb 'red' with lines title 'Real' "  :-
 @gp  :- vec(frequencies) vec(umidImag) "lw 2 lc rgb 'blue' with lines title 'Imaginary' "  :-
 @gp  :- "set xlabel 'Frequency [Hz]'" :-
@@ -180,7 +180,7 @@ umidImag = imag.(U1[midpointdof, :])/phun("MM")
 
 # # Plot the shift of the FRF.
 umidPhase = atan.(umidImag, umidReal)/pi*180 
-@gp  "set terminal wxt 2 "  :-
+@gp  "set terminal windows 2 "  :-
 @gp  :- vec(frequencies) vec(umidPhase) "lw 2 lc rgb 'red' with lines title 'Phase shift' "  :-
 @gp  :- "set xlabel 'Frequency [Hz]'" :-
 @gp  :- "set ylabel 'Phase shift [deg]'"
