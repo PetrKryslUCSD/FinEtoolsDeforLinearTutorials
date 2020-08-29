@@ -69,12 +69,19 @@ femm = associategeometry!(femm, geom)
 K = stiffness(femm, geom, u)
 femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,3)), material)
 M = mass(femm, geom, u)
+
+# Find the relationship of the sum of all the elements of the 
+# mass matrix and the total mass of the structure.
+@show sum(sum(M))
+@show L*W*H*rho
+
+# Form the damping matrix.
 C = Rayleigh_mass * M
 
 # Figure out the highest frequency in the model, and use a time step that is
 # considerably larger than the period of that highest frequency.
 evals, evecs = eigs(K, M; nev=1, which=:LM);
-dt = 350 * 2/sqrt(evals[1]);
+@show dt = 350 * 2/sqrt(evals[1]);
 
 # The time stepping loop is protected by `let end` to avoid unpleasant surprises
 # with variables getting clobbered by globals.

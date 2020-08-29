@@ -12,4 +12,5 @@
 - [13H benchmark, forced vibration, modal model](TEST13H_mod_tut.md)
 - [FV32 benchmark, free vibration of trapezoidal membrane](FV32_tut.md)
 - [Tracking a transient deformation of a cantilever beam](bending_wave_Ray_tut.md)
+- [Tracking a transient deformation of a cantilever beam, lumped mass matrix](bending_wave_Ray_lumped_tut.md)
 - [Beam under on/off loading: transient response](beam_load_on_off_tut.md)
