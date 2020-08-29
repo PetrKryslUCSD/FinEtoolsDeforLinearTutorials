@@ -213,7 +213,21 @@ The entire solution will be stored  in this array:
 
 ```julia
 U1 = zeros(FCplxFlt, u.nfreedofs, length(frequencies))
+```
 
+It is best to prevent the BLAS library from using threads concurrently with
+our own use of threads. The threads might easily become oversubscribed, with
+attendant slowdown.
+
+```julia
+LinearAlgebra.BLAS.set_num_threads(1)
+```
+
+We utilize all the threads with which Julia was started. We can select the
+number of threads to use by running the executable as `julia -t n`, where `n`
+is the number of threads.
+
+```julia
 using Base.Threads
 print("Number of threads: $(nthreads())\n")
 print("Sweeping through $(length(frequencies)) frequencies\n")
@@ -226,6 +240,9 @@ Threads.@threads for k in 1:length(frequencies)
 end
 print("\nTime = $(time()-t0)\n")
 ```
+
+On Windows the scaling is not great, which is not Julia's fault, but rather
+the operating system's failing. Linux usually gives much greater speedups.
 
 Find the midpoint of the plate bottom surface.  For this purpose the number of
 elements along the edge of the plate needs to be divisible by two.

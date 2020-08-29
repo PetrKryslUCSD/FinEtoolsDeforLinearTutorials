@@ -290,7 +290,8 @@ end
 ```julia
 using Gnuplot
 
-@gp ts corneruzs./phun("mm") "lw 2 lc rgb 'red' with lines title 'Displacement of the corner' "
+@gp "set terminal windows 0 " :-
+@gp  :- ts corneruzs./phun("mm") "lw 2 lc rgb 'red' with lines title 'Displacement of the corner' "
 @gp  :- "set xlabel 'Time [s]'"
 @gp  :- "set ylabel 'Displacement [mm]'"
 ```
