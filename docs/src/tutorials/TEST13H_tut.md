@@ -18,6 +18,9 @@ Homogeneous square plate, simply-supported on the circumference from the test
 The nonzero benchmark frequencies are (in hertz): 2.377, 5.961, 5.961, 9.483,
 12.133, 12.133, 15.468, 15.468 [Hz].
 
+The magnitude of the displacement for the fundamental frequency (2.377 Hz) is
+45.42mm according to the reference solution.
+
 ![](test13h_real_imag.png)
 
 ## References

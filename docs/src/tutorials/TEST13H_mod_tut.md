@@ -1,4 +1,4 @@
-# TEST 13H: square plate under harmonic loading. Parallel execution.
+# TEST 13H: square plate under harmonic loading. Modal model
 
 ## Description
 
@@ -18,14 +18,14 @@ Homogeneous square plate, simply-supported on the circumference from the test
 The nonzero benchmark frequencies are (in hertz): 2.377, 5.961, 5.961, 9.483,
 12.133, 12.133, 15.468, 15.468 [Hz].
 
-The magnitude of the displacement for the fundamental frequency (2.377 Hz) is
-45.42mm according to the reference solution.
-
 ![](test13h_real_imag.png)
 
-The harmonic response loop is processed with multiple threads. The algorithm
-is embarrassingly parallel (i. e. no communication is required). Hence the
-parallel execution is particularly simple.
+This is the so-called modal model: the response is expressed as a linear
+combination of the eigenvectors. The finite element model is transformed into
+the modal space. The reduced  matrices are in fact diagonal for the Rayleigh
+damping. The model natural frequencies can be evaluated fairly quickly, given
+the small size of the model, and a lot more frequencies can therefore be
+processed in the frequency sweep.
 
 ## References
 
@@ -34,7 +34,7 @@ parallel execution is particularly simple.
 ## Goals
 
 - Show how to generate hexahedral mesh, mirroring and merging together parts.
-- Execute transient simulation by the trapezoidal-rule time stepping of [1].
+- Execute frequency sweep using a modal model.
 
 ```julia
 #
@@ -62,7 +62,7 @@ L = 10.0*phun("m"); # side of the square plate
 t = 0.05*phun("m"); # thickness of the square plate
 nL = 16; nt = 4;
 tolerance = t/nt/100;
-frequencies = vcat(linearspace(0.0,2.377,15), linearspace(2.377,15.0,40))
+frequencies = vcat(linearspace(0.0,2.377,150), linearspace(2.377,15.0,400))
 ```
 
 Compute the parameters of Rayleigh damping. For the two selected
@@ -203,6 +203,40 @@ F = distribloads(el1femm, geom, u, fi, 2);
 #
 ```
 
+## Transformation into the modal model
+
+We will have to find the natural frequencies and mode shapes. Without much
+justification, we picked 60 natural frequencies to include. Usually this
+needs to be done carefully so that nothing important is missed. In this case
+the number may be an overkill.
+
+```julia
+neigvs = 60
+t0 = time()
+evals, evecs, nconv = eigs(K, M; nev=neigvs, which=:SM)
+@show tep = time() - t0
+@show nconv == neigvs
+```
+
+Now the matrices are reduced. In fact, if we are sure of the diagonal
+character of all these matrices, we can really only store diagonal
+matrices and even the solve of the modal equations of motion becomes trivial.
+
+```julia
+Mr = evecs' * M * evecs
+Kr = evecs' * K * evecs
+Cr = evecs' * C * evecs
+```
+
+The loading also needs to be transformed (projected) into the modal vector
+space.
+
+```julia
+Fr = evecs' * F
+
+#
+```
+
 ## Sweep through the frequencies
 
 Sweep through the frequencies and calculate the complex displacement vector
@@ -214,14 +248,23 @@ The entire solution will be stored  in this array:
 ```julia
 U1 = zeros(FCplxFlt, u.nfreedofs, length(frequencies))
 
-using Base.Threads
-print("Number of threads: $(nthreads())\n")
 print("Sweeping through $(length(frequencies)) frequencies\n")
 t0 = time()
-Threads.@threads for k in 1:length(frequencies)
+for k in 1:length(frequencies)
     f = frequencies[k];
     omega = 2*pi*f;
-    U1[:, k] = (-omega^2*M + 1im*omega*C + K)\F;
+```
+
+Solve the reduced equations.
+
+```julia
+    Ur = (-omega^2*Mr + 1im*omega*Cr + Kr)\Fr;
+```
+
+Reconstruct the solution in the finite element space.
+
+```julia
+    U1[:, k] = evecs * Ur;
     print(".")
 end
 print("\nTime = $(time()-t0)\n")
