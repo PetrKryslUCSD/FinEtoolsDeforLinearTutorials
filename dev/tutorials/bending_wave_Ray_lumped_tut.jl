@@ -1,4 +1,4 @@
-# # Tracking a transient deformation of a cantilever beam
+# # Tracking a transient deformation of a cantilever beam: lumped mass
 
 # ## Description
 
@@ -67,8 +67,23 @@ material = MatDeforElastIso(MR, rho, E, nu, 0.0)
 femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,2)), material)
 femm = associategeometry!(femm, geom)
 K = stiffness(femm, geom, u)
+
+# Assemble the mass matrix as diagonal. The HRZ lumping technique is 
+# applied through the assembler of the sparse matrix.
+hrzass = SysmatAssemblerSparseHRZLumpingSymm(0.0)
 femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,3)), material)
-M = mass(femm, geom, u)
+M = mass(femm, hrzass, geom, u)
+
+# Check visually that the mass matrix is in fact diagonal. We use 
+# the `findnz` function to retrieve the nonzeros in the matrix.
+# Each such entry is then plotted as a point.
+using Gnuplot
+using SparseArrays
+I, J, V = findnz(M)
+@gp "set terminal windows 1 " :-
+@gp :- I J "with p"
+@gp :- "set xlabel 'Row'"
+@gp :- "set ylabel 'Column'"
 
 # Find the relationship of the sum of all the elements of the 
 # mass matrix and the total mass of the structure.
