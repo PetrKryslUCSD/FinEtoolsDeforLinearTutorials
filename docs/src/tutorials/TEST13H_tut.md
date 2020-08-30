@@ -182,7 +182,7 @@ really only just fills the buffer with the constant loading vector.
 
 ```julia
 function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
-    forceout .=  [0.0, 0.0, -qmagn]
+    forceout .=  [0.0, 0.0, qmagn]
     return forceout
 end
 fi = ForceIntensity(FFlt, 3, pfun);
