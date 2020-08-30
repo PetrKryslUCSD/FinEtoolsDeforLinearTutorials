@@ -124,7 +124,7 @@ topbfl = selectelem(fens, bdryfes, facing=true, direction=[0.0 0.0 1.0])
 # The force intensity is created as driven by a function, but the function
 # really only just fills the buffer with the constant loading vector.
 function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
-    forceout .=  [0.0, 0.0, -qmagn]
+    forceout .=  [0.0, 0.0, qmagn]
     return forceout
 end
 fi = ForceIntensity(FFlt, 3, pfun);
