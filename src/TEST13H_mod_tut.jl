@@ -73,8 +73,6 @@ a1 = 2*(o1*o2)/(o2^2-o1^2)*(-1/o2*zeta1+1/o1*zeta2);# a1
 # Generate the finite element domain as a block.
 fens,fes  = H8block(L, L, t, nL, nL, nt)
 
-vtkexportmesh("test13h-mesh.vtk", fens, fes)
-
 # Create the geometry field.
 geom = NodalField(fens.xyz)
 # Create the displacement field. Note that it holds complex numbers.
@@ -126,7 +124,7 @@ topbfl = selectelem(fens, bdryfes, facing=true, direction=[0.0 0.0 1.0])
 # The force intensity is created as driven by a function, but the function
 # really only just fills the buffer with the constant loading vector.
 function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
-    forceout .=  [0.0, 0.0, qmagn]
+    forceout .=  [0.0, 0.0, -qmagn]
     return forceout
 end
 fi = ForceIntensity(FFlt, 3, pfun);
