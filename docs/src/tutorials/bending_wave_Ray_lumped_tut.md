@@ -103,9 +103,9 @@ using Gnuplot
 using SparseArrays
 I, J, V = findnz(M)
 @gp "set terminal windows 1 " :-
-@gp :- I J "with p"
-@gp :- "set xlabel 'Row'"
-@gp :- "set ylabel 'Column'"
+@gp :- J I "with p" :-
+@gp :- "set xlabel 'Column'" "set xrange [1:$(size(M, 2))] " :-
+@gp :- "set ylabel 'Row'" "set yrange [$(size(M, 1)):1] "
 ```
 
 Find the relationship of the sum of all the elements of the

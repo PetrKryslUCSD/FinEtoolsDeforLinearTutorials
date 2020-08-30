@@ -144,9 +144,11 @@ F = distribloads(el1femm, geom, u, fi, 2);
 # needs to be done carefully so that nothing important is missed. In this case
 # the number may be an overkill.
 
+OmegaShift = (0.01*2*pi)^2; # The frequency with which to shift
 neigvs = 60
 t0 = time()
-evals, evecs, nconv = eigs(K, M; nev=neigvs, which=:SM)
+evals, evecs, nconv = eigs(K+OmegaShift*M, M; nev=neigvs, which=:SM)
+evals .-= OmegaShift
 @show tep = time() - t0
 @show nconv == neigvs
 
