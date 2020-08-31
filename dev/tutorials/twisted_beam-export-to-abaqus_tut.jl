@@ -1,4 +1,8 @@
-# # Export  to Abaqus
+# # Twisted beam: Export solid model to Abaqus
+
+# Source code: [`twisted_beam-export-to-abaqus_tut.jl`](twisted_beam-export-to-abaqus_tut.jl)
+
+# ## Description
 
 # In this example  we show how to export a model  to the finite element software Abaqus.
 

@@ -1,6 +1,6 @@
 # # Tracking transient deformation of a cantilever beam: lumped mass
 
-# Source code: [bending_wave_Ray_lumped_tut.jl](bending_wave_Ray_lumped_tut.jl)
+# Source code: [`bending_wave_Ray_lumped_tut.jl`](bending_wave_Ray_lumped_tut.jl)
 
 # ## Description
 
