@@ -1,4 +1,6 @@
-# # Suddenly-stopped bar: TW explicit
+# # Suddenly-stopped bar: Centered difference explicit
+
+# Source code: [sudden_stop_expl_cd_tut.jl](sudden_stop_expl_cd_tut.jl)
 
 # ## Description
 
@@ -8,13 +10,14 @@
 # The output of the simulation is the velocity, which tends to reproduce 
 # the rectangular pulses in which the velocity bounces back and forth.
 
-# The beam is modeled as a solid. Tchamwa-Wielgosz rule is used to integrate the
+# The beam is modeled as a solid. The classical centered difference 
+# rule is used to integrate the
 # equations of motion in time. No damping is present. 
 
 # ## Goals
 
-# - Show how to create the discrete model.
-# - Demonstrate TW time stepping.
+# - Show how to create the discrete model for explicit dynamics.
+# - Demonstrate centered difference explicit time stepping.
 
 ##
 # ## Definitions
