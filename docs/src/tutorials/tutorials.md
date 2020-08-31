@@ -15,3 +15,5 @@
 - [Tracking a transient deformation of a cantilever beam, lumped mass matrix](bending_wave_Ray_lumped_tut.md)
 - [Tracking a transient deformation of a cantilever beam, centered difference](bending_wave_Ray_expl_cd_tut.md)
 - [Beam under on/off loading: transient response](beam_load_on_off_tut.md)
+- [Suddenly-stopped bar: TW explicit](sudden_stop_expl_tw_tut.md)
+- [Suddenly-stopped bar: CD explicit](sudden_stop_expl_cd_tut.md)
