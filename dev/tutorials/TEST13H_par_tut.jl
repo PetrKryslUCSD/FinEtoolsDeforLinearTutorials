@@ -23,7 +23,7 @@
 # The magnitude of the displacement for the fundamental frequency (2.377 Hz) is
 # 45.42mm according to the reference solution.
 
-# <img src="test13h_real_imag.png" alt="Complex FRF" width="300"/>
+# ![](test13h_real_imag.png)
 
 # The harmonic response loop is processed with multiple threads. The algorithm
 # is embarrassingly parallel (i. e. no communication is required). Hence the

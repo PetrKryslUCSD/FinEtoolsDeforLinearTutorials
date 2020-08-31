@@ -16,7 +16,7 @@
 # along one plane of nodes to effect the constrained motion only in the plane
 # of the trapezoidal membrane. 
 
-# <img src="FV32-mesh.png" alt="Mode shape" width="300"/>
+# ![](FV32-mesh.png)
 
 # ## References
 
@@ -145,7 +145,7 @@ println("Percentage frequency errors: $((vec(fs[1:6]) - vec(Reffs))./vec(Reffs)*
 # The mode shapes may be visualized with `paraview`. Here is for instance mode
 # 8:
 
-# <img src="FV32-mode-8.png" alt="Mode shape" width="300"/>
+# ![](FV32-mode-8.png)
 
 # The algorithm to export the mode shapes expects some input. We shall specify
 # the filename and the numbers of modes to export.
