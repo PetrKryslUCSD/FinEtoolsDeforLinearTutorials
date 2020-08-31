@@ -19,7 +19,7 @@ tetrahedra.
 [2] P. Krysl, Mean-strain 8-node hexahedron with optimized energy-sampling
 stabilization, Finite Elements in Analysis and Design 108 (2016) 41–53.
 
-<img src="unit_cube-mode7.png" alt="Mode shape" width="200"/>
+![](unit_cube-mode7.png)
 
 ## Goals
 

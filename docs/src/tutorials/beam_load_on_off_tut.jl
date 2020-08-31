@@ -13,7 +13,7 @@
 # equations of motion in time. Rayleigh mass- and stiffness-proportional
 # damping is incorporated. The dynamic stiffness is factorized for efficiency.
 
-# <img src="beam_load_on_off_tut.png" alt="Deflection of free tip" width="300"/>
+# ![](beam_load_on_off_tut.png)
 
 # ## Goals
 
