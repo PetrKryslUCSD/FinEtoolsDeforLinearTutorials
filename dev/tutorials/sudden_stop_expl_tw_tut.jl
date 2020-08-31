@@ -1,20 +1,21 @@
-# # Suddenly-stopped bar: CD explicit
+# # Suddenly-stopped bar: TW explicit
+
+# Source code: [sudden_stop_expl_tw_tut.jl](sudden_stop_expl_tw_tut.jl)
 
 # ## Description
-
 
 # A bar is given an initial velocity and then at time 0.0 it is
 # suddenly stopped by fixing one of its ends. This sends a wave down the bar.
 # The output of the simulation is the velocity, which tends to reproduce 
 # the rectangular pulses in which the velocity bounces back and forth.
 
-# The beam is modeled as a solid. Centered difference rule is used to integrate the
-# equations of motion in time. No damping is present. 
+# The beam is modeled as a solid. The Tchamwa-Wielgosz explicit rule 
+# is used to integrate the equations of motion in time. No damping is present. 
 
 # ## Goals
 
-# - Show how to create the discrete model.
-# - Demonstrate  centered difference time stepping.
+# - Show how to create the discrete model for explicit dynamics.
+# - Demonstrate  Tchamwa-Wielgosz explicit time stepping.
 
 ##
 # ## Definitions

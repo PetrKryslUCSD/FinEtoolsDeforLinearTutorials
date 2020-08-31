@@ -7,6 +7,6 @@ for t in readdir(".")
         # Literate.notebook(t, "."; execute=false, documenter=false);
         # @show n, ext = splitext(t)
         # @show "../docs/tutorials/" * n * ".md"
-        cp(t, "../../../src/" * t, force = true)
+        # cp(t, "../../../src/" * t, force = true)
     end
 end
