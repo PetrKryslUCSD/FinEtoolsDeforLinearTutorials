@@ -1,6 +1,6 @@
 # Tracking transient deformation of a cantilever beam
 
-Source code: [bending_wave_Ray_tut.jl](bending_wave_Ray_tut.jl)
+Source code: [`bending_wave_Ray_tut.jl`](bending_wave_Ray_tut.jl)
 
 ## Description
 

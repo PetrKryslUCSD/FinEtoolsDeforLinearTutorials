@@ -1,6 +1,6 @@
 # R0031/3 Composite plate test
 
-Source code: [R0031-3-Composite-benchmark_tut.jl](R0031-3-Composite-benchmark_tut.jl)
+Source code: [`R0031-3-Composite-benchmark_tut.jl`](R0031-3-Composite-benchmark_tut.jl)
 
 ## Description
 

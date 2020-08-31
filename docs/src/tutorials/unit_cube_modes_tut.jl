@@ -1,5 +1,7 @@
 # # Vibration of a cube of nearly incompressible material
 
+# Source code: [`unit_cube_modes_tut.jl`](unit_cube_modes_tut.jl)
+
 # ## Description
 
 
@@ -20,8 +22,9 @@
 
 # ## Goals
 
-# - Show how to generate hexahedral mesh, mirroring and merging together parts.
-# - Export the model to Abaqus.
+# - Show how to generate simple mesh.
+# - Show how to set up the discrete model for a free vibration problem.
+# - Show how to export the model to Abaqus.
 
 ##
 # ## Definitions

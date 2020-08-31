@@ -1,10 +1,13 @@
 # Vibration of a cube of nearly incompressible material: alternative models
 
+Source code: [`unit_cube_modes_alt_tut.jl`](unit_cube_modes_alt_tut.jl)
+
 ## Description
 
 Compute the free-vibration spectrum of a unit cube of nearly
 incompressible isotropic material, E = 1, ν = 0.499, and ρ = 1 (refer to [1]).
 
+Here we show how alternative finite element models compare:
 The solution with the serendipity quadratic hexahedron is supplemented with
 solutions obtained with advanced finite elements: nodal-integration energy
 stabilized hexahedra and tetrahedra, and mean-strain hexahedra and
@@ -16,12 +19,12 @@ tetrahedra.
 [2] P. Krysl, Mean-strain 8-node hexahedron with optimized energy-sampling
 stabilization, Finite Elements in Analysis and Design 108 (2016) 41–53.
 
-![](unit_cube-mode7.png)
+<img src="unit_cube-mode7.png" alt="Mode shape" width="200"/>
 
 ## Goals
 
-- Set up a simulation loop that will run all the models and collect data.
-- Present the computed spectrum curves.
+- Show how to set up a simulation loop that will run all the models and collect data.
+- Show how to present the computed spectrum curves.
 
 ```julia
 #

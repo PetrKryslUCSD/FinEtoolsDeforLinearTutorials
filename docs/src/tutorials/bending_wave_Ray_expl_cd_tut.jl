@@ -1,6 +1,6 @@
 # # Tracking transient deformation of a cantilever beam: centered difference
 
-# Source code: [bending_wave_Ray_expl_cd_tut.jl](bending_wave_Ray_expl_cd_tut.jl)
+# Source code: [`bending_wave_Ray_expl_cd_tut.jl`](bending_wave_Ray_expl_cd_tut.jl)
 
 # ## Description
 

@@ -1,5 +1,7 @@
 # Vibration of a cube of nearly incompressible material
 
+Source code: [`unit_cube_modes_tut.jl`](unit_cube_modes_tut.jl)
+
 ## Description
 
 Compute the free-vibration spectrum of a unit cube of nearly
@@ -19,8 +21,9 @@ stabilization, Finite Elements in Analysis and Design 108 (2016) 41–53.
 
 ## Goals
 
-- Show how to generate hexahedral mesh, mirroring and merging together parts.
-- Export the model to Abaqus.
+- Show how to generate simple mesh.
+- Show how to set up the discrete model for a free vibration problem.
+- Show how to export the model to Abaqus.
 
 ```julia
 #

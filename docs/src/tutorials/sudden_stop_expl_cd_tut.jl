@@ -1,6 +1,6 @@
 # # Suddenly-stopped bar: Centered difference explicit
 
-# Source code: [sudden_stop_expl_cd_tut.jl](sudden_stop_expl_cd_tut.jl)
+# Source code: [`sudden_stop_expl_cd_tut.jl`](sudden_stop_expl_cd_tut.jl)
 
 # ## Description
 

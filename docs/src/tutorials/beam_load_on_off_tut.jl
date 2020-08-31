@@ -1,6 +1,6 @@
 # # Beam under on/off loading: transient response
 
-# Source code: [beam_load_on_off_tut.jl](beam_load_on_off_tut.jl)
+# Source code: [`beam_load_on_off_tut.jl`](beam_load_on_off_tut.jl)
 
 # ## Description
 

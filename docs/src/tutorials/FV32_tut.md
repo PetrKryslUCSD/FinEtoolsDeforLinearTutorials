@@ -1,6 +1,6 @@
 # TEST FV32: Cantilevered tapered membrane, free vibration
 
-Source code: [FV32_tut.jl](FV32_tut.jl)
+Source code: [`FV32_tut.jl`](FV32_tut.jl)
 
 ## Description
 

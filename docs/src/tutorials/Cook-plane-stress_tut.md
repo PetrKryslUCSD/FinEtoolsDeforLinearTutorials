@@ -1,6 +1,6 @@
 # Cook panel under plane stress
 
-Source code: [Cook-plane-stress_tut.jl](Cook-plane-stress_tut.jl)
+Source code: [`Cook-plane-stress_tut.jl`](Cook-plane-stress_tut.jl)
 
 ## Description
 

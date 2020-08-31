@@ -1,6 +1,6 @@
 # # Suddenly-stopped bar: TW explicit
 
-# Source code: [sudden_stop_expl_tw_tut.jl](sudden_stop_expl_tw_tut.jl)
+# Source code: [`sudden_stop_expl_tw_tut.jl`](sudden_stop_expl_tw_tut.jl)
 
 # ## Description
 
