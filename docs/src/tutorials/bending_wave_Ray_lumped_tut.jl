@@ -1,7 +1,8 @@
-# # Tracking a transient deformation of a cantilever beam: lumped mass
+# # Tracking transient deformation of a cantilever beam: lumped mass
+
+# Source code: [bending_wave_Ray_lumped_tut.jl](bending_wave_Ray_lumped_tut.jl)
 
 # ## Description
-
 
 # A cantilever beam is given an initial velocity and then at time 0.0 it is
 # suddenly stopped by fixing one of its ends. This sends a wave down the beam.
@@ -12,7 +13,7 @@
 
 # ## Goals
 
-# - Show how to create the discrete model.
+# - Show how to create the discrete model for implicit dynamics.
 # - Demonstrate  trapezoidal-rule time stepping.
 
 ##

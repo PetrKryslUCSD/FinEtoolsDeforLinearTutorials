@@ -1,5 +1,7 @@
 # TEST 13H: square plate under harmonic loading
 
+Source code: [`TEST13H_tut.jl`](TEST13H_tut.jl)
+
 ## Description
 
 Harmonic forced vibration problem is solved for a homogeneous square plate,
@@ -21,7 +23,7 @@ The nonzero benchmark frequencies are (in hertz): 2.377, 5.961, 5.961, 9.483,
 The magnitude of the displacement for the fundamental frequency (2.377 Hz) is
 45.42mm according to the reference solution.
 
-![](test13h_real_imag.png)
+<img src="test13h_real_imag.png" alt="Complex FRF" width="300"/>
 
 ## References
 

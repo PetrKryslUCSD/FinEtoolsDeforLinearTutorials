@@ -1,11 +1,14 @@
-# Tracking a transient deformation of a cantilever beam
+# Tracking transient deformation of a cantilever beam
+
+Source code: [bending_wave_Ray_tut.jl](bending_wave_Ray_tut.jl)
 
 ## Description
 
 A cantilever beam is given an initial velocity and then at time 0.0 it is
 suddenly stopped by fixing one of its ends. This sends a wave down the beam.
 
-The beam is modeled as a solid. Trapezoidal rule is used to integrate the
+The beam is modeled as a solid. Consistent mass matrix is used.
+Trapezoidal rule is used to integrate the
 equations of motion in time. Rayleigh mass-proportional damping is
 incorporated. The dynamic stiffness is factorized for efficiency.
 

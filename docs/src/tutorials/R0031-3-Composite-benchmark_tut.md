@@ -1,4 +1,8 @@
-R0031/3 Composite plate test
+# R0031/3 Composite plate test
+
+Source code: [R0031-3-Composite-benchmark_tut.jl](R0031-3-Composite-benchmark_tut.jl)
+
+## Description
 
 This is a test recommended by the National Agency for Finite Element Methods and Standards (U.K.): Test R0031/3 from NAFEMS publication R0031, “Composites Benchmarks,” February 1995. It is  a composite  (sandwich) plate of square shape, simply supported along all four edges. Uniform transverse loading is applied to the top skin. The modeled part is one quarter of the full plate here. The serendipity  quadratic hexahedra  are used, with full integration.
 

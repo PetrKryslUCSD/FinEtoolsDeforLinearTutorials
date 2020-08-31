@@ -1,5 +1,7 @@
 # Cook panel under plane stress
 
+Source code: [Cook-plane-stress_tut.jl](Cook-plane-stress_tut.jl)
+
 ## Description
 
 In this example we investigate the well-known benchmark of a tapered panel
@@ -9,7 +11,7 @@ solution is well-known.
 
 ## Goals
 
-- Show how to generate the mesh.
+- Show how to generate the mesh by creating a rectangular block and reshaping it.
 - Execute the simulation with a static-equilibrium algorithm (solver).
 
 ```julia
@@ -18,7 +20,8 @@ solution is well-known.
 
 ## Definitions
 
-The problem is solved in a script.  We begin  by `using` the top-level module `FinEtools`. Further, we use the linear-deformation application package.
+The problem is solved in a script.  We begin  by `using` the top-level module `FinEtools`.
+Further, we use the linear-deformation application package.
 
 ```julia
 using FinEtools

@@ -1,5 +1,7 @@
 # Beam under on/off loading: transient response
 
+Source code: [beam_load_on_off_tut.jl](beam_load_on_off_tut.jl)
+
 ## Description
 
 A cantilever beam is loaded by a trapezoidal-pulse traction load at its free
@@ -10,11 +12,11 @@ The beam is modeled as a solid. Trapezoidal rule is used to integrate the
 equations of motion in time. Rayleigh mass- and stiffness-proportional
 damping is incorporated. The dynamic stiffness is factorized for efficiency.
 
-![](beam_load_on_off_tut.png)
+<img src="beam_load_on_off_tut.png" alt="Deflection of free tip" width="300"/>
 
 ## Goals
 
-- Show how to create the discrete model.
+- Show how to create the discrete model, with implicit dynamics and proportional damping.
 - Apply distributed loading varying in time.
 - Demonstrate  trapezoidal-rule time stepping.
 

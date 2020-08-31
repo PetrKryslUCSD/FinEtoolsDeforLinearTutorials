@@ -1,4 +1,6 @@
-# Tracking a transient deformation of a cantilever beam: centered difference
+# Tracking transient deformation of a cantilever beam: centered difference
+
+Source code: [bending_wave_Ray_expl_cd_tut.jl](bending_wave_Ray_expl_cd_tut.jl)
 
 ## Description
 
@@ -10,7 +12,7 @@ equations of motion in time. No damping is present.
 
 ## Goals
 
-- Show how to create the discrete model.
+- Show how to create the discrete model for explicit dynamics.
 - Demonstrate  centered difference time stepping.
 
 ```julia

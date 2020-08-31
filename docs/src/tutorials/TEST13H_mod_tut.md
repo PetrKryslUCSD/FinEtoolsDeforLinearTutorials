@@ -1,5 +1,7 @@
 # TEST 13H: square plate under harmonic loading. Modal model
 
+Source code: [`TEST13H_mod_tut.jl`](TEST13H_mod_tut.jl)
+
 ## Description
 
 Harmonic forced vibration problem is solved for a homogeneous square plate,
@@ -18,7 +20,10 @@ Homogeneous square plate, simply-supported on the circumference from the test
 The nonzero benchmark frequencies are (in hertz): 2.377, 5.961, 5.961, 9.483,
 12.133, 12.133, 15.468, 15.468 [Hz].
 
-![](test13h_real_imag.png)
+The magnitude of the displacement for the fundamental frequency (2.377 Hz) is
+45.42mm according to the reference solution.
+
+<img src="test13h_real_imag.png" alt="Complex FRF" width="300"/>
 
 This is the so-called modal model: the response is expressed as a linear
 combination of the eigenvectors. The finite element model is transformed into

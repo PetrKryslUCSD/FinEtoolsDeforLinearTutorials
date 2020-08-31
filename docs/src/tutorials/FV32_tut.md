@@ -1,12 +1,14 @@
 # TEST FV32: Cantilevered tapered membrane, free vibration
 
+Source code: [FV32_tut.jl](FV32_tut.jl)
+
 ## Description
 
 FV32: Cantilevered tapered membrane is a test recommended by the National
 Agency for Finite Element Methods and Standards (U.K.): Test FV32 from NAFEMS
 publication TNSB, Rev. 3, “The Standard NAFEMS Benchmarks,” October 1990.
 
-Reference solution: 44.623  130.03  162.70  246.05  379.90  391.44 for the
+Reference solution: 44.623, 130.03, 162.70, 246.05, 379.90, 391.44 Hz for the
 first six modes.
 
 The benchmark is originally for plane stress conditions. We simulate the
@@ -14,7 +16,7 @@ plane-stress conditions with a three-dimensional mesh that is constrained
 along one plane of nodes to effect the constrained motion only in the plane
 of the trapezoidal membrane.
 
-![](FV32-mesh.png)
+<img src="FV32-mesh.png" alt="Mode shape" width="300"/>
 
 ## References
 
@@ -196,7 +198,8 @@ Compared these numbers with those computed by our three-dimensional model.
 
 The mode shapes may be visualized with `paraview`. Here is for instance mode
 8:
-![](FV32-mode-8.png)
+
+<img src="FV32-mode-8.png" alt="Mode shape" width="300"/>
 
 The algorithm to export the mode shapes expects some input. We shall specify
 the filename and the numbers of modes to export.
