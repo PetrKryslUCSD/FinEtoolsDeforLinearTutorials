@@ -13,6 +13,10 @@ package using `FinEtools` to solve linear stress analysis problems. This package
 
 - 08/20/2020: Created.
 
+## Table of contents
+
+[List of tutorials](docs/src/tutorials/tutorials.md). One can use "Markdown preview"
+in VS Code for navigation.
 
 ## How to work with the tutorials
 
