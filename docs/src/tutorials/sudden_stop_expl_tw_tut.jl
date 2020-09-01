@@ -20,6 +20,8 @@
 ##
 # ## Definitions
 
+tst = time()
+
 # Basic imports.
 using LinearAlgebra
 using Arpack
@@ -63,7 +65,7 @@ material = MatDeforElastIso(MR, rho, E, nu, 0.0)
 
 femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,2)), material)
 femm = associategeometry!(femm, geom)
-K = stiffness(femm, geom, u)
+@time K = stiffness(femm, geom, u)
 # Assemble the mass matrix as diagonal. The HRZ lumping technique is 
 # applied through the assembler of the sparse matrix.
 hrzass = SysmatAssemblerSparseHRZLumpingSymm(0.0)
@@ -71,7 +73,7 @@ femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,3)), material)
 M = mass(femm, hrzass, geom, u)
 
 # Figure out the highest frequency in the model, and use a time step that is
-# considerably larger than the period of that highest frequency.
+# smaller than the period of the highest frequency.
 evals, evecs = eigs(K, M; nev=1, which=:LM);
 @show dt = 0.9 * 2/sqrt(evals[1]);
 
@@ -138,5 +140,6 @@ using Gnuplot
 @gp  :- "set ylabel 'Velocity [mm/s]'"
 
 
+@show time()-tst
 # The end.
 true

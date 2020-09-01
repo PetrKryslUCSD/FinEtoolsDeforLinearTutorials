@@ -73,7 +73,7 @@ femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,3)), material)
 M = mass(femm, hrzass, geom, u)
 
 # Figure out the highest frequency in the model, and use a time step that is
-# considerably larger than the period of that highest frequency.
+# smaller than the period of the highest frequency.
 evals, evecs = eigs(K, M; nev=1, which=:LM);
 @show dt = 0.9 * 2/sqrt(evals[1]);
 
