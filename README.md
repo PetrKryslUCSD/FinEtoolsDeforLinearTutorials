@@ -31,7 +31,7 @@ Activate and instantiate the environment:
 ```
 (v1.5) pkg> activate .; instantiate
 ```
-The tutorial source files are located in the `src` folder.
+The tutorial source files are located in the `docs/src/tutorials` folder.
 Locate the one you want, loaded in your IDE or editor of preference, and execute away.
 
 
