@@ -37,4 +37,5 @@ Locate the one you want, loaded in your IDE or editor of preference, and execute
 
 ## News
 
+- 02/14/2021: Updated for Julia 1.6.
 - 08/20/2020: Created.

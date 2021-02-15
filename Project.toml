@@ -1,7 +1,7 @@
 name = "FinEtoolsDeforLinearTutorials"
 uuid = "5a51ca09-0812-45c1-ac40-a32ac5752ea0"
 authors = ["Petr Krysl <pkrysl@ucsd.edu>"]
-version = "0.2.0"
+version = "0.3.0"
 
 [deps]
 Arpack = "7d9fca2a-8960-54d3-9f78-7d1dccf2cb97"
@@ -18,12 +18,12 @@ SymRCM = "286e6d88-80af-4590-acc9-0001b223b9bd"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
-Arpack = "^0.4"
-FinEtools = "^4.7"
-FinEtoolsDeforLinear = "^0.3"
+Arpack = "^0.5"
+FinEtools = "^5"
+FinEtoolsDeforLinear = "^1"
 Gnuplot = "^1.3"
 Literate = "^2.6"
 PGFPlotsX = "^1.2"
 StatsBase = "^0.33"
 SymRCM = "^0.2"
-julia = "^1.5"
+julia = "^1.6"
